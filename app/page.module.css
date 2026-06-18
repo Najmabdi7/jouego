@@ -1,0 +1,46 @@
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.footer {
+  border-top: 1px solid #1e1e35;
+  padding: 40px 24px;
+  margin-top: 40px;
+}
+
+.footerInner {
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footerLogo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #7c3aed;
+  text-shadow: 0 0 20px rgba(124,58,237,0.6);
+}
+
+.footer p {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.footerLinks a {
+  color: #6b7280;
+  font-size: 13px;
+  transition: color 0.15s;
+}
+
+.footerLinks a:hover {
+  color: #a78bfa;
+}

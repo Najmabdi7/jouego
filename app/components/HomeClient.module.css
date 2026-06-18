@@ -1,0 +1,228 @@
+.page {
+  min-height: 100vh;
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  padding: 72px 24px 60px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.heroGlow {
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse at top, rgba(124,58,237,0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.heroEyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #7c3aed;
+  margin-bottom: 16px;
+  padding: 4px 14px;
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 20px;
+  background: rgba(124,58,237,0.08);
+}
+
+.heroTitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: #e8e8f0;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.heroAccent {
+  color: #7c3aed;
+  text-shadow: 0 0 30px rgba(124,58,237,0.6), 0 0 60px rgba(124,58,237,0.3);
+}
+
+.heroSub {
+  font-size: 16px;
+  color: #6b7280;
+  line-height: 1.7;
+}
+
+/* LAYOUT */
+.layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: sticky;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebarLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #4b5563;
+  padding: 0 12px;
+  margin-bottom: 8px;
+}
+
+.catBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.catBtn:hover {
+  background: #12121e;
+  color: #e8e8f0;
+}
+
+.catActive {
+  background: rgba(124,58,237,0.12) !important;
+  color: #a78bfa !important;
+  border: 1px solid rgba(124,58,237,0.2);
+}
+
+.catCount {
+  margin-left: auto;
+  font-size: 11px;
+  background: #1a1a2e;
+  color: #6b7280;
+  padding: 1px 7px;
+  border-radius: 10px;
+}
+
+/* MAIN */
+.main {
+  min-width: 0;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #e8e8f0;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+.sectionDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7c3aed;
+  box-shadow: 0 0 8px rgba(124,58,237,0.8);
+  flex-shrink: 0;
+}
+
+.sectionCount {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #4b5563;
+  margin-left: 4px;
+}
+
+.featuredGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+/* EMPTY */
+.empty {
+  text-align: center;
+  padding: 60px 24px;
+  color: #4b5563;
+}
+
+.empty p {
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.empty button {
+  padding: 10px 24px;
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 8px;
+  color: #a78bfa;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.empty button:hover {
+  background: rgba(124,58,237,0.25);
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 0 16px 40px;
+  }
+  .sidebar {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .sidebarLabel { display: none; }
+  .catBtn { font-size: 12px; padding: 6px 10px; }
+  .catCount { display: none; }
+  .hero { padding: 40px 16px 32px; }
+}
+
+@media (max-width: 480px) {
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .featuredGrid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}
