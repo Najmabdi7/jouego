@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 /**
- * NovArcade — Script d'import GamePix
+ * NovArcade — Script d'import GamePix (incrémental)
  *
  * Usage:
- *   GAMEPIX_SID=TON_SID node scripts/import-games.mjs
- *   GAMEPIX_SID=TON_SID LIMIT=500 node scripts/import-games.mjs
+ *   node scripts/import-games.mjs                    # ajoute 500 jeux (order=q)
+ *   BATCH_SIZE=1000 node scripts/import-games.mjs   # ajoute 1000 jeux
+ *   MAX_TOTAL=5000 node scripts/import-games.mjs    # plafonne le total à 5000
  *
- * Génère public/data/games.json depuis l'API GamePix.
+ * Stratégie : scanne l'API en plusieurs passes avec ordres différents
+ * (q=quality, d=date), déduplique par id et slug contre le JSON existant.
  */
 
-import { writeFileSync } from 'fs'
+import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -17,8 +19,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const OUTPUT = join(__dirname, '../public/data/games.json')
 
 const SID = process.env.GAMEPIX_SID || '1'
-const LIMIT = parseInt(process.env.LIMIT || '500', 10)
-const ORDER = process.env.ORDER || 'q' // q = quality (most played), d = newest
+const BATCH_SIZE = parseInt(process.env.BATCH_SIZE || '500', 10)
+const MAX_TOTAL = parseInt(process.env.MAX_TOTAL || '5000', 10)
 const FEATURED_MIN_RK = parseFloat(process.env.FEATURED_MIN_RK || '0.85')
 
 // Mapping catégories GamePix (EN) → NovArcade (FR)
@@ -42,43 +44,37 @@ function slugify(str) {
 }
 
 function pickCategory(raw) {
-  // Essaie toutes les catégories du jeu, prend la première qu'on mappe
   const cats = [raw.category, ...(raw.categories || [])].filter(Boolean)
   for (const c of cats) {
     const mapped = CATEGORY_MAP[String(c).toLowerCase()]
     if (mapped) return mapped
   }
-  return 'Arcade' // fallback
+  return 'Arcade'
 }
 
-async function fetchAllGames() {
+async function fetchPage(order, offset, limit = 1000) {
+  const url = `https://games.gamepix.com/games?sid=${SID}&order=${order}&limit=${limit}&offset=${offset}`
+  const res = await fetch(url)
+  if (!res.ok) return []
+  const data = (await res.json()).data || []
+  return Array.isArray(data) ? data : []
+}
+
+async function fetchMany(order, maxToFetch) {
   const games = []
-  const pageSize = 1000
   let offset = 0
-  console.log(`📡 GamePix (sid=${SID}, order=${ORDER}, limit=${LIMIT})...`)
-
-  while (games.length < LIMIT) {
-    const url = `https://games.gamepix.com/games?sid=${SID}&order=${ORDER}&limit=${pageSize}&offset=${offset}`
-    const res = await fetch(url)
-    if (!res.ok) {
-      console.error(`❌ HTTP ${res.status} à offset=${offset}`)
-      break
-    }
-    const data = (await res.json()).data || []
-    if (data.length === 0) break
-
-    games.push(...data)
-    console.log(`   +${data.length} (total: ${games.length})`)
-
-    if (data.length < pageSize) break
+  const pageSize = 1000
+  while (games.length < maxToFetch) {
+    const batch = await fetchPage(order, offset, pageSize)
+    if (batch.length === 0) break
+    games.push(...batch)
+    if (batch.length < pageSize) break
     offset += pageSize
   }
-
-  return games.slice(0, LIMIT)
+  return games.slice(0, maxToFetch)
 }
 
 function cleanTitle(title) {
-  // Retire les suffixes branding (GamePix, CrazyGames, etc.) et la ponctuation résiduelle
   return String(title || '')
     .replace(/\s*[-|]\s*(gamepix|crazygames|crazy\s*games|play\.gamepix)\s*$/i, '')
     .replace(/\s+/g, ' ')
@@ -93,9 +89,6 @@ function transformGame(raw, index) {
   const cleanT = cleanTitle(raw.title)
   const description = raw.desc_fr || raw.description || `Joue à ${cleanT} sur NovArcade !`
 
-  // Construit l'URL embed directe (sans branding player) si on a un slug
-  // raw.url de l'API pointe vers play.gamepix.com/SLUG/embed?sid=X — déjà bon
-  // mais on force le format /embed?sid= pour éviter les redirections vers le player complet
   let embedUrl = raw.url || ''
   if (embedUrl.includes('play.gamepix.com') && !embedUrl.includes('/embed')) {
     embedUrl = embedUrl.replace(/\?.*$/, '') + '/embed?sid=' + SID
@@ -119,24 +112,72 @@ function transformGame(raw, index) {
 
 async function main() {
   try {
-    const rawGames = await fetchAllGames()
-    console.log(`\n✅ ${rawGames.length} jeux récupérés`)
+    // Charge l'existant
+    let existing = []
+    if (existsSync(OUTPUT)) {
+      try {
+        existing = JSON.parse(readFileSync(OUTPUT, 'utf-8'))
+      } catch (e) {
+        console.warn('⚠ games.json illisible, on repart de zéro')
+        existing = []
+      }
+    }
+    console.log(`📦 ${existing.length} jeux déjà en base`)
 
-    const games = rawGames
-      .map((g, i) => transformGame(g, i))
+    const existingIds = new Set(existing.map(g => g.id))
+    const existingSlugs = new Set(existing.map(g => g.slug))
+
+    // Stratégie : scanne en plusieurs passes avec ordres différents
+    // pour maximiser la diversité sans doublons
+    const orders = ['q', 'd'] // quality puis date
+    const candidates = []
+
+    for (const order of orders) {
+      const needed = BATCH_SIZE - candidates.length
+      console.log(`📡 Scan order=${order} (besoin: ${needed})...`)
+      const fetched = await fetchMany(order, Math.max(BATCH_SIZE, 1000))
+      let added = 0
+      for (const raw of fetched) {
+        if (existingIds.has(String(raw.id))) continue
+        const slug = slugify(cleanTitle(raw.title))
+        if (existingSlugs.has(slug) || !slug) continue
+        candidates.push(raw)
+        existingIds.add(String(raw.id))
+        existingSlugs.add(slug)
+        added++
+        if (candidates.length >= BATCH_SIZE) break
+      }
+      console.log(`   +${added} nouveaux (candidates: ${candidates.length})`)
+      if (candidates.length >= BATCH_SIZE) break
+    }
+
+    console.log(`\n✅ ${candidates.length} nouveaux jeux`)
+
+    // Transforme et ajoute
+    const newGames = candidates
+      .map((g, i) => transformGame(g, existing.length + i))
       .filter(g => g.url && g.thumbnail)
 
-    // Dédup par slug
-    const seen = new Set()
-    const unique = games.filter(g => {
-      if (seen.has(g.slug)) return false
-      seen.add(g.slug)
+    let merged = [...existing, ...newGames]
+
+    // Dédup finale par id + slug (sécurité)
+    const seenId = new Set()
+    const seenSlug = new Set()
+    merged = merged.filter(g => {
+      if (seenId.has(g.id) || seenSlug.has(g.slug)) return false
+      seenId.add(g.id)
+      seenSlug.add(g.slug)
       return true
     })
 
-    writeFileSync(OUTPUT, JSON.stringify(unique, null, 2), 'utf-8')
-    const featured = unique.filter(g => g.featured).length
-    console.log(`💾 ${unique.length} jeux sauvegardés (${featured} featured)`)
+    // Plafonne si demandé
+    if (MAX_TOTAL && merged.length > MAX_TOTAL) {
+      merged = merged.slice(0, MAX_TOTAL)
+    }
+
+    writeFileSync(OUTPUT, JSON.stringify(merged, null, 2), 'utf-8')
+    const featured = merged.filter(g => g.featured).length
+    console.log(`💾 ${merged.length} jeux au total (${featured} featured, +${merged.length - existing.length} nouveaux)`)
     console.log('🚀 Lance maintenant: npm run build')
   } catch (err) {
     console.error('❌ Erreur:', err.message)
