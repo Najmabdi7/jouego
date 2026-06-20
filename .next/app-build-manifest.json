@@ -21,7 +21,7 @@
       "static/chunks/23-15079f6a7566b840.js",
       "static/chunks/main-app-443603e38710111e.js",
       "static/css/e42b42424710e730.css",
-      "static/chunks/237-a6d4421295e8e72e.js",
+      "static/chunks/237-1d86784654cde09e.js",
       "static/chunks/app/page-5fc525575e32ea0b.js"
     ],
     "/game/[slug]/page": [
@@ -30,7 +30,7 @@
       "static/chunks/23-15079f6a7566b840.js",
       "static/chunks/main-app-443603e38710111e.js",
       "static/css/e42b42424710e730.css",
-      "static/chunks/237-a6d4421295e8e72e.js",
+      "static/chunks/237-1d86784654cde09e.js",
       "static/chunks/app/game/[slug]/page-5a59c712f7c2b3f9.js"
     ]
   }

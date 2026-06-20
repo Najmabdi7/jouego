@@ -70,6 +70,8 @@ async function fetchMany(order, maxToFetch) {
     games.push(...batch)
     if (batch.length < pageSize) break
     offset += pageSize
+    // Sécurité anti-boucle infinie : l'API plafonne ~6500
+    if (offset > 7000) break
   }
   return games.slice(0, maxToFetch)
 }
@@ -134,8 +136,10 @@ async function main() {
 
     for (const order of orders) {
       const needed = BATCH_SIZE - candidates.length
-      console.log(`📡 Scan order=${order} (besoin: ${needed})...`)
-      const fetched = await fetchMany(order, Math.max(BATCH_SIZE, 1000))
+      // Scanne large : 3x BATCH_SIZE pour avoir du choix après dédup
+      const fetchTarget = Math.max(BATCH_SIZE * 3, 2000)
+      console.log(`📡 Scan order=${order} (besoin: ${needed}, scan: ${fetchTarget})...`)
+      const fetched = await fetchMany(order, fetchTarget)
       let added = 0
       for (const raw of fetched) {
         if (existingIds.has(String(raw.id))) continue
