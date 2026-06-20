@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './GameCard.module.css'
 import { formatPlays } from '../lib/games'
 
