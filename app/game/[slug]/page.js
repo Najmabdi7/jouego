@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Header from '../../components/Header'
 import { getGameBySlug, getAllGames, formatPlays } from '../../lib/games'
 import GameCard from '../../components/GameCard'
+import FullscreenButton from './FullscreenButton'
 import styles from './game.module.css'
 
 export async function generateStaticParams() {
@@ -44,6 +45,7 @@ export default function GamePage({ params }) {
             <div className={styles.gameArea}>
               <div className={styles.frameWrap}>
                 <iframe
+                  id={`game-${game.slug}`}
                   src={game.url}
                   title={game.title}
                   className={styles.frame}
@@ -69,17 +71,7 @@ export default function GamePage({ params }) {
                       <span className={styles.plays}>{formatPlays(game.plays)} parties jouées</span>
                     </div>
                   </div>
-                  <a
-                    href={game.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.fullscreenBtn}
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
-                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
-                    </svg>
-                    Plein écran
-                  </a>
+                  <FullscreenButton targetId={`game-${game.slug}`} />
                 </div>
                 <p className={styles.description}>{game.description}</p>
                 <div className={styles.tags}>

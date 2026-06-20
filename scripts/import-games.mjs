@@ -77,25 +77,39 @@ async function fetchAllGames() {
   return games.slice(0, LIMIT)
 }
 
+function cleanTitle(title) {
+  // Retire les suffixes branding (GamePix, CrazyGames, etc.) et la ponctuation résiduelle
+  return String(title || '')
+    .replace(/\s*[-|]\s*(gamepix|crazygames|crazy\s*games|play\.gamepix)\s*$/i, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 function transformGame(raw, index) {
   const rk = Number(raw.rkScore) || 0
-  // Plays déterministe depuis rkScore (0-1) : ~5k-50k
   const plays = Math.round(rk * 45000 + 5000)
-  // Rating déterministe : 3.5 + rk*1.5 (plafonné à 5.0)
   const rating = Math.min(5.0, Math.round((3.5 + rk * 1.5) * 10) / 10)
 
-  // Description FR si dispo, sinon EN
-  const description = raw.desc_fr || raw.description || `Joue à ${raw.title} sur NovArcade !`
+  const cleanT = cleanTitle(raw.title)
+  const description = raw.desc_fr || raw.description || `Joue à ${cleanT} sur NovArcade !`
+
+  // Construit l'URL embed directe (sans branding player) si on a un slug
+  // raw.url de l'API pointe vers play.gamepix.com/SLUG/embed?sid=X — déjà bon
+  // mais on force le format /embed?sid= pour éviter les redirections vers le player complet
+  let embedUrl = raw.url || ''
+  if (embedUrl.includes('play.gamepix.com') && !embedUrl.includes('/embed')) {
+    embedUrl = embedUrl.replace(/\?.*$/, '') + '/embed?sid=' + SID
+  }
 
   return {
     id: String(raw.id || index + 1),
-    slug: slugify(raw.title) || `game-${index}`,
-    title: (raw.title || 'Sans titre').trim(),
+    slug: slugify(cleanT) || `game-${index}`,
+    title: cleanT || 'Sans titre',
     description,
     category: pickCategory(raw),
     tags: (raw.categories || [raw.category]).filter(Boolean).map(t => String(t).toLowerCase()),
     thumbnail: raw.thumbnailUrl || raw.thumbnailUrl100 || '',
-    url: raw.url || '',
+    url: embedUrl,
     plays,
     rating,
     featured: raw.featured === true || rk >= FEATURED_MIN_RK,
