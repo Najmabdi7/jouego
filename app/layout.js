@@ -1,3 +1,4 @@
+import Script from 'next/script'
 import './globals.css'
 
 export const metadata = {
@@ -11,9 +12,19 @@ export const metadata = {
   },
 }
 
+const ADSENSE_ID = 'ca-pub-9490161916567429'
+
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
+      <head>
+        <Script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`}
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body>{children}</body>
     </html>
   )

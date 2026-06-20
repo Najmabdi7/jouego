@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Header from '../../components/Header'
+import AdSlot from '../../components/AdSlot'
 import { getGameBySlug, getAllGames, formatPlays } from '../../lib/games'
 import GameCard from '../../components/GameCard'
 import FullscreenButton from './FullscreenButton'
@@ -84,6 +85,7 @@ export default function GamePage({ params }) {
 
             {related.length > 0 && (
               <aside className={styles.related}>
+                <AdSlot slot="3333333333" format="rectangle" />
                 <h2 className={styles.relatedTitle}>Similaires</h2>
                 <div className={styles.relatedList}>
                   {related.map(g => (
