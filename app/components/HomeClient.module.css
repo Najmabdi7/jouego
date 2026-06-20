@@ -226,3 +226,90 @@
   .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .featuredGrid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 }
+
+/* Section header avec tri */
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.sortBar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sortBtn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sortBtn:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.sortActive {
+  background: linear-gradient(135deg, #7c3aed, #06b6d4);
+  border-color: transparent;
+  color: white;
+  font-weight: 600;
+}
+
+/* Filtres actifs (chips) */
+.activeFilters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(124,58,237,0.2);
+  border: 1px solid rgba(124,58,237,0.4);
+  color: white;
+  padding: 4px 8px 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.filterChip button {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0 4px;
+}
+
+.filterChip button:hover { color: white; }
+
+.clearAll {
+  background: none;
+  border: 1px dashed rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.6);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.clearAll:hover {
+  color: white;
+  border-color: rgba(255,255,255,0.6);
+}

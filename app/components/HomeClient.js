@@ -1,58 +1,102 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
 import GameCard from './GameCard'
 import styles from './HomeClient.module.css'
 
 const CATEGORY_ICONS = {
-  'Action': '⚡',
-  'Puzzle': '🧩',
-  'Course': '🏎️',
-  'Arcade': '🕹️',
-  'Stratégie': '♟️',
-  'Multijoueur': '👥',
-  'Mots': '💬',
+  'Action':       '⚡',
+  'Aventure':     '🗺️',
+  'Arcade':       '🕹️',
+  'Course':       '🏎️',
+  'Multijoueur':  '👥',
+  'Puzzle':       '🧩',
+  'Sport':        '⚽',
+  'Stratégie':    '♟️',
 }
+
+const SORTS = [
+  { id: 'popular',  label: '🔥 Populaires' },
+  { id: 'rating',   label: '⭐ Mieux notés' },
+  { id: 'newest',   label: '✨ Nouveautés' },
+  { id: 'alpha',    label: '🔤 A-Z' },
+]
 
 export default function HomeClient({ games, categories }) {
   const searchParams = useSearchParams()
-  const [activeCategory, setActiveCategory] = useState(null)
+
+  const [activeCategories, setActiveCategories] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
+  const [sort, setSort] = useState('popular')
   const [displayed, setDisplayed] = useState(games)
 
+  // Init depuis URL
   useEffect(() => {
     const search = searchParams.get('search') || ''
-    const cat = searchParams.get('category') || null
+    const cats = searchParams.get('category')
+    const sortParam = searchParams.get('sort')
     setSearchQuery(search)
-    setActiveCategory(cat)
+    setActiveCategories(cats ? cats.split(',').filter(Boolean) : [])
+    if (sortParam && SORTS.find(s => s.id === sortParam)) setSort(sortParam)
   }, [searchParams])
 
+  // Recalcul liste filtrée
   useEffect(() => {
     let filtered = games
-    if (activeCategory) {
-      filtered = filtered.filter(g => g.category === activeCategory)
+
+    if (activeCategories.length > 0) {
+      filtered = filtered.filter(g => activeCategories.includes(g.category))
     }
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase()
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim()
       filtered = filtered.filter(g =>
         g.title.toLowerCase().includes(q) ||
-        g.description.toLowerCase().includes(q) ||
-        g.tags.some(t => t.includes(q))
+        (g.description || '').toLowerCase().includes(q) ||
+        (g.tags || []).some(t => t.includes(q))
       )
     }
-    setDisplayed(filtered)
-  }, [activeCategory, searchQuery, games])
 
-  const featured = games.filter(g => g.featured).slice(0, 4)
-  const showHero = !activeCategory && !searchQuery
+    // Tri
+    const sorted = [...filtered]
+    if (sort === 'rating') sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0))
+    else if (sort === 'newest') sorted.sort((a, b) => (b.plays || 0) - (a.plays || 0))
+    else if (sort === 'alpha') sorted.sort((a, b) => a.title.localeCompare(b.title))
+    else sorted.sort((a, b) => (b.plays || 0) - (a.plays || 0))
 
-  function selectCategory(name) {
-    const next = activeCategory === name ? null : name
-    setActiveCategory(next)
-    setSearchQuery('')
-    const url = next ? `/?category=${encodeURIComponent(next)}` : '/'
+    setDisplayed(sorted)
+  }, [activeCategories, searchQuery, sort, games])
+
+  const featured = useMemo(() =>
+    [...games].filter(g => g.featured).sort((a, b) => (b.plays || 0) - (a.plays || 0)).slice(0, 8),
+  [games])
+
+  const showHero = activeCategories.length === 0 && !searchQuery
+
+  function toggleCategory(name) {
+    const next = activeCategories.includes(name)
+      ? activeCategories.filter(c => c !== name)
+      : [...activeCategories, name]
+    setActiveCategories(next)
+    updateUrl(next, searchQuery, sort)
+  }
+
+  function clearCategories() {
+    setActiveCategories([])
+    updateUrl([], searchQuery, sort)
+  }
+
+  function updateUrl(cats, search, s) {
+    const params = new URLSearchParams()
+    if (cats.length > 0) params.set('category', cats.join(','))
+    if (search) params.set('search', search)
+    if (s && s !== 'popular') params.set('sort', s)
+    const qs = params.toString()
+    const url = qs ? `/?${qs}` : '/'
     window.history.pushState({}, '', url)
   }
+
+  const total = games.length
 
   return (
     <div className={styles.page}>
@@ -60,13 +104,13 @@ export default function HomeClient({ games, categories }) {
         <section className={styles.hero}>
           <div className={styles.heroGlow} />
           <div className={styles.heroContent}>
-            <p className={styles.heroEyebrow}>+ de 1 000 jeux gratuits</p>
+            <p className={styles.heroEyebrow}>+ de 3 800 jeux gratuits</p>
             <h1 className={styles.heroTitle}>
               Joue maintenant.<br/>
               <span className={styles.heroAccent}>Aucune installation.</span>
             </h1>
             <p className={styles.heroSub}>
-              Arcade, puzzle, action, course... Des centaines de jeux HTML5 directement dans ton navigateur.
+              Action, puzzle, course, aventure... Des milliers de jeux HTML5 directement dans ton navigateur.
             </p>
           </div>
         </section>
@@ -76,23 +120,26 @@ export default function HomeClient({ games, categories }) {
         <aside className={styles.sidebar}>
           <p className={styles.sidebarLabel}>Catégories</p>
           <button
-            className={`${styles.catBtn} ${!activeCategory ? styles.catActive : ''}`}
-            onClick={() => selectCategory(null)}
+            className={`${styles.catBtn} ${activeCategories.length === 0 ? styles.catActive : ''}`}
+            onClick={clearCategories}
           >
             <span>🎮</span> Tous les jeux
-            <span className={styles.catCount}>{games.length}</span>
+            <span className={styles.catCount}>{total}</span>
           </button>
-          {categories.map(cat => (
-            <button
-              key={cat.name}
-              className={`${styles.catBtn} ${activeCategory === cat.name ? styles.catActive : ''}`}
-              onClick={() => selectCategory(cat.name)}
-            >
-              <span>{CATEGORY_ICONS[cat.name] || '🎯'}</span>
-              {cat.name}
-              <span className={styles.catCount}>{cat.count}</span>
-            </button>
-          ))}
+          {categories.map(cat => {
+            const active = activeCategories.includes(cat.name)
+            return (
+              <button
+                key={cat.name}
+                className={`${styles.catBtn} ${active ? styles.catActive : ''}`}
+                onClick={() => toggleCategory(cat.name)}
+              >
+                <span>{CATEGORY_ICONS[cat.name] || '🎯'}</span>
+                {cat.name}
+                <span className={styles.catCount}>{cat.count}</span>
+              </button>
+            )
+          })}
         </aside>
 
         <main className={styles.main}>
@@ -111,16 +158,45 @@ export default function HomeClient({ games, categories }) {
           )}
 
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>
-              <span className={styles.sectionDot} style={{background:'#06b6d4'}} />
-              {activeCategory ? activeCategory : searchQuery ? `Résultats pour "${searchQuery}"` : 'Tous les jeux'}
-              <span className={styles.sectionCount}>{displayed.length}</span>
-            </h2>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>
+                <span className={styles.sectionDot} style={{background:'#06b6d4'}} />
+                {searchQuery
+                  ? `Résultats pour "${searchQuery}"`
+                  : activeCategories.length > 0
+                    ? activeCategories.join(' + ')
+                    : 'Tous les jeux'}
+                <span className={styles.sectionCount}>{displayed.length}</span>
+              </h2>
+              <div className={styles.sortBar}>
+                {SORTS.map(s => (
+                  <button
+                    key={s.id}
+                    className={`${styles.sortBtn} ${sort === s.id ? styles.sortActive : ''}`}
+                    onClick={() => { setSort(s.id); updateUrl(activeCategories, searchQuery, s.id) }}
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {activeCategories.length > 0 && (
+              <div className={styles.activeFilters}>
+                {activeCategories.map(c => (
+                  <span key={c} className={styles.filterChip}>
+                    {CATEGORY_ICONS[c] || '🎯'} {c}
+                    <button onClick={() => toggleCategory(c)} aria-label={`Retirer ${c}`}>×</button>
+                  </span>
+                ))}
+                <button className={styles.clearAll} onClick={clearCategories}>Tout effacer</button>
+              </div>
+            )}
 
             {displayed.length === 0 ? (
               <div className={styles.empty}>
                 <p>Aucun jeu trouvé.</p>
-                <button onClick={() => { setActiveCategory(null); setSearchQuery(''); window.history.pushState({},'',' /'); }}>
+                <button onClick={() => { clearCategories(); setSearchQuery(''); updateUrl([], '', sort) }}>
                   Voir tous les jeux
                 </button>
               </div>
