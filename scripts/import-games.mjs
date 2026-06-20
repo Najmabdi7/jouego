@@ -4,9 +4,9 @@
  *
  * Usage:
  *   GAMEPIX_SID=TON_SID node scripts/import-games.mjs
+ *   GAMEPIX_SID=TON_SID LIMIT=500 node scripts/import-games.mjs
  *
- * Ce script récupère tous les jeux depuis l'API GamePix
- * et génère le fichier public/data/games.json
+ * Génère public/data/games.json depuis l'API GamePix.
  */
 
 import { writeFileSync } from 'fs'
@@ -16,88 +16,89 @@ import { fileURLToPath } from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const OUTPUT = join(__dirname, '../public/data/games.json')
 
-const SID = process.env.GAMEPIX_SID
-if (!SID) {
-  console.error('❌ Manque la variable GAMEPIX_SID')
-  console.error('   Usage: GAMEPIX_SID=ton_sid node scripts/import-games.mjs')
-  process.exit(1)
-}
+const SID = process.env.GAMEPIX_SID || '1'
+const LIMIT = parseInt(process.env.LIMIT || '500', 10)
+const ORDER = process.env.ORDER || 'q' // q = quality (most played), d = newest
+const FEATURED_MIN_RK = parseFloat(process.env.FEATURED_MIN_RK || '0.85')
 
-// Map des catégories GamePix → NovArcade
+// Mapping catégories GamePix (EN) → NovArcade (FR)
 const CATEGORY_MAP = {
-  'action':     'Action',
-  'puzzle':     'Puzzle',
-  'racing':     'Course',
-  'sports':     'Sport',
   'arcade':     'Arcade',
-  'strategy':   'Stratégie',
-  'multiplayer':'Multijoueur',
-  'word':       'Mots',
   'adventure':  'Aventure',
-  'shooting':   'Action',
-  'casual':     'Arcade',
-  'simulation': 'Stratégie',
-  'clicker':    'Arcade',
   'board':      'Stratégie',
-  'card':       'Stratégie',
+  'classics':   'Arcade',
+  'junior':     'Arcade',
+  'puzzles':    'Puzzle',
+  'sports':     'Sport',
+  'strategy':   'Stratégie',
 }
 
 function slugify(str) {
-  return str
+  return String(str || '')
     .toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 }
 
+function pickCategory(raw) {
+  // Essaie toutes les catégories du jeu, prend la première qu'on mappe
+  const cats = [raw.category, ...(raw.categories || [])].filter(Boolean)
+  for (const c of cats) {
+    const mapped = CATEGORY_MAP[String(c).toLowerCase()]
+    if (mapped) return mapped
+  }
+  return 'Arcade' // fallback
+}
+
 async function fetchAllGames() {
+  const games = []
+  const pageSize = 1000
   let offset = 0
-  const limit = 1000
-  let allGames = []
+  console.log(`📡 GamePix (sid=${SID}, order=${ORDER}, limit=${LIMIT})...`)
 
-  console.log('📡 Connexion à l\'API GamePix...')
-
-  while (true) {
-    const url = `https://games.gamepix.com/games?sid=${SID}&limit=${limit}&offset=${offset}&order=q`
-    console.log(`   Fetching offset=${offset}...`)
-
+  while (games.length < LIMIT) {
+    const url = `https://games.gamepix.com/games?sid=${SID}&order=${ORDER}&limit=${pageSize}&offset=${offset}`
     const res = await fetch(url)
     if (!res.ok) {
-      console.error(`❌ Erreur HTTP ${res.status}`)
+      console.error(`❌ HTTP ${res.status} à offset=${offset}`)
       break
     }
+    const data = (await res.json()).data || []
+    if (data.length === 0) break
 
-    const data = await res.json()
-    const games = data?.data || data?.games || data || []
+    games.push(...data)
+    console.log(`   +${data.length} (total: ${games.length})`)
 
-    if (!Array.isArray(games) || games.length === 0) break
-
-    allGames = allGames.concat(games)
-    console.log(`   +${games.length} jeux (total: ${allGames.length})`)
-
-    if (games.length < limit) break
-    offset += limit
+    if (data.length < pageSize) break
+    offset += pageSize
   }
 
-  return allGames
+  return games.slice(0, LIMIT)
 }
 
 function transformGame(raw, index) {
-  const category = CATEGORY_MAP[raw.category?.toLowerCase()] || 'Arcade'
-  const slug = slugify(raw.title || `game-${index}`)
+  const rk = Number(raw.rkScore) || 0
+  // Plays déterministe depuis rkScore (0-1) : ~5k-50k
+  const plays = Math.round(rk * 45000 + 5000)
+  // Rating déterministe : 3.5 + rk*1.5 (plafonné à 5.0)
+  const rating = Math.min(5.0, Math.round((3.5 + rk * 1.5) * 10) / 10)
+
+  // Description FR si dispo, sinon EN
+  const description = raw.desc_fr || raw.description || `Joue à ${raw.title} sur NovArcade !`
 
   return {
     id: String(raw.id || index + 1),
-    slug: slug,
-    title: raw.title || 'Jeu sans titre',
-    description: raw.description || `Joue gratuitement à ${raw.title} sur NovArcade !`,
-    category: category,
-    tags: (raw.tags || [raw.category]).filter(Boolean).map(t => t.toLowerCase()),
-    thumbnail: raw.thumbnail || raw.image || raw.cover || '',
-    url: raw.url || raw.gameUrl || raw.embedUrl || '',
-    plays: raw.plays || raw.playCount || Math.floor(Math.random() * 100000) + 1000,
-    rating: raw.rating || parseFloat((3.8 + Math.random() * 1.2).toFixed(1)),
-    featured: index < 12,
+    slug: slugify(raw.title) || `game-${index}`,
+    title: (raw.title || 'Sans titre').trim(),
+    description,
+    category: pickCategory(raw),
+    tags: (raw.categories || [raw.category]).filter(Boolean).map(t => String(t).toLowerCase()),
+    thumbnail: raw.thumbnailUrl || raw.thumbnailUrl100 || '',
+    url: raw.url || '',
+    plays,
+    rating,
+    featured: raw.featured === true || rk >= FEATURED_MIN_RK,
     source: 'gamepix',
   }
 }
@@ -109,9 +110,9 @@ async function main() {
 
     const games = rawGames
       .map((g, i) => transformGame(g, i))
-      .filter(g => g.url && g.thumbnail) // garder seulement ceux avec URL et image
+      .filter(g => g.url && g.thumbnail)
 
-    // Dédupliquer par slug
+    // Dédup par slug
     const seen = new Set()
     const unique = games.filter(g => {
       if (seen.has(g.slug)) return false
@@ -120,8 +121,9 @@ async function main() {
     })
 
     writeFileSync(OUTPUT, JSON.stringify(unique, null, 2), 'utf-8')
-    console.log(`💾 ${unique.length} jeux sauvegardés dans public/data/games.json`)
-    console.log('\n🚀 Lance maintenant: npm run build')
+    const featured = unique.filter(g => g.featured).length
+    console.log(`💾 ${unique.length} jeux sauvegardés (${featured} featured)`)
+    console.log('🚀 Lance maintenant: npm run build')
   } catch (err) {
     console.error('❌ Erreur:', err.message)
     process.exit(1)
