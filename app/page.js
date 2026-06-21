@@ -19,7 +19,7 @@ export default function Home() {
       <AdSlot slot="2222222222" format="horizontal" />
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
-          <span className={styles.footerLogo}>NovArcade.</span>
+          <span className={styles.footerLogo}>Jouego.</span>
           <p>Des jeux gratuits pour tout le monde, partout, tout le temps.</p>
           <div className={styles.footerLinks}>
             <a href="/top-jeux">Top jeux</a> · <a href="/nouveautes">Nouveautés</a> · <a href="/blog">Blog</a> · <a href="/categorie/action">Action</a> · <a href="/categorie/puzzle">Puzzle</a> · <a href="/categorie/course">Course</a> · <a href="/categorie/sport">Sport</a> · <a href="/categorie/arcade">Arcade</a> · <a href="/categorie/aventure">Aventure</a> · <a href="/categorie/stratégie">Stratégie</a> · <a href="/categorie/multijoueur">Multijoueur</a>

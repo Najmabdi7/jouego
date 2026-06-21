@@ -50,4 +50,4 @@ Un jeu de conduite libre où vous pouvez explorer la ville à votre rythme. Idé
 
 Les jeux de course HTML5 ont l'avantage d'être accessibles partout : sur ordinateur, tablette ou smartphone, sans installer d'application. Ils se lancent en quelques secondes et offrent des sessions courtes parfaites pour les pauses.
 
-Sur NovArcade, tous nos jeux de course sont gratuits et jouables en plein écran. N'hésitez pas à tester plusieurs titres pour trouver celui qui vous correspond le mieux !
+Sur Jouego, tous nos jeux de course sont gratuits et jouables en plein écran. N'hésitez pas à tester plusieurs titres pour trouver celui qui vous correspond le mieux !

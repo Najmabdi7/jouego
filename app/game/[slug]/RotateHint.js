@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import styles from './game.module.css'
 
-const DISMISS_KEY = 'novarcade-rotate-hint-dismissed'
+const DISMISS_KEY = 'jouego-rotate-hint-dismissed'
 
 /**
  * Shows a "rotate your phone" overlay on portrait mobile devices.

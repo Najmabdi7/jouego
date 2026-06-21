@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * NovArcade — Script de re-catégorisation
+ * Jouego — Script de re-catégorisation
  *
  * Recatégorise public/data/games.json en se basant sur tags + titre.
  * Ne touche pas aux jeux, juste à `category`.

@@ -24,11 +24,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const catName = decodeURIComponent(params.slug).charAt(0).toUpperCase() +
     decodeURIComponent(params.slug).slice(1)
-  const desc = CATEGORY_DESCRIPTIONS[catName] || `Jeux de ${catName} gratuits en ligne sur NovArcade.`
+  const desc = CATEGORY_DESCRIPTIONS[catName] || `Jeux de ${catName} gratuits en ligne sur Jouego.`
   return {
     title: `Jeux ${catName} gratuits en ligne`,
     description: desc,
-    alternates: { canonical: `https://novarcade.waaplink.com/categorie/${params.slug}` },
+    alternates: { canonical: `https://jouego.waaplink.com/categorie/${params.slug}` },
   }
 }
 

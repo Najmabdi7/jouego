@@ -1,4 +1,4 @@
-Les jeux de puzzle et de réflexion sont parfaits pour stimuler votre cerveau tout en vous divertissant. Voici 8 des meilleurs jeux de puzzle gratuits à jouer en ligne sur NovArcade.
+Les jeux de puzzle et de réflexion sont parfaits pour stimuler votre cerveau tout en vous divertissant. Voici 8 des meilleurs jeux de puzzle gratuits à jouer en ligne sur Jouego.
 
 ## 1. Cut the Rope 2
 
@@ -38,4 +38,4 @@ Un puzzle créatif où vous assemblez des formes pour reproduire des modèles. P
 
 Les jeux de réflexion améliorent la concentration, la logique spatiale et la mémoire de travail. Ils sont recommandés pour maintenir une bonne agilité mentale, quel que soit votre âge.
 
-Sur NovArcade, tous nos jeux de puzzle sont gratuits, sans inscription et jouables sur tous vos appareils. Bonne réflexion !
+Sur Jouego, tous nos jeux de puzzle sont gratuits, sans inscription et jouables sur tous vos appareils. Bonne réflexion !

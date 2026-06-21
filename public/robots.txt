@@ -4,4 +4,4 @@ Disallow: /api/
 Disallow: /_next/
 Disallow: /admin
 
-Sitemap: https://novarcade.waaplink.com/sitemap.xml
+Sitemap: https://jouego.waaplink.com/sitemap.xml

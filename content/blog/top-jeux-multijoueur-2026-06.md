@@ -1,4 +1,4 @@
-Affrontez d'autres joueurs du monde entier : les {n} meilleurs jeux multijoueur gratuits sur NovArcade.
+Affrontez d'autres joueurs du monde entier : les {n} meilleurs jeux multijoueur gratuits sur Jouego.
 
 ## 1. Drunken Duel
 
@@ -74,6 +74,6 @@ Find colored shape of a requested type faster than your opponents!
 
 [Jouer à Fast Finders IO →](/game/fast-finders-io)
 
-## La compétition sur NovArcade
+## La compétition sur Jouego
 
 Nos jeux multijoueur sont gratuits et accessibles partout. Affrontez des joueurs du monde entier sans téléchargement !

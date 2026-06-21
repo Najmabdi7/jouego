@@ -1,4 +1,4 @@
-# NovArcade 🎮
+# Jouego 🎮
 
 Portail de jeux HTML5 gratuits. Dark/néon, tout public, en français.
 
@@ -48,8 +48,8 @@ npm i -g vercel
 # Push sur GitHub d'abord
 git init
 git add .
-git commit -m "init NovArcade"
-git remote add origin https://github.com/TON_USER/novarcade.git
+git commit -m "init Jouego"
+git remote add origin https://github.com/TON_USER/jouego.git
 git push -u origin main
 
 # Puis déployer
@@ -92,7 +92,7 @@ Ajoute `GAMEPIX_SID` dans les secrets GitHub → le catalogue se met à jour tou
 ## Structure du projet
 
 ```
-novarcade/
+jouego/
 ├── app/
 │   ├── components/
 │   │   ├── Header.js          # Navbar sticky avec recherche

@@ -5,8 +5,8 @@ import styles from '../seo.module.css'
 
 export const metadata = {
   title: 'Nouveaux jeux gratuits — Dernières nouveautés HTML5',
-  description: 'Les derniers jeux ajoutés sur NovArcade. Découvrez les nouveautés et jouez gratuitement aux jeux HTML5 les plus récents.',
-  alternates: { canonical: 'https://novarcade.waaplink.com/nouveautes' },
+  description: 'Les derniers jeux ajoutés sur Jouego. Découvrez les nouveautés et jouez gratuitement aux jeux HTML5 les plus récents.',
+  alternates: { canonical: 'https://jouego.waaplink.com/nouveautes' },
 }
 
 export default function NouveautesPage() {
@@ -22,7 +22,7 @@ export default function NouveautesPage() {
         <div className={styles.inner}>
           <h1 className={styles.seoH1}>Nouveaux jeux gratuits</h1>
           <p className={styles.intro}>
-            Découvrez les derniers jeux ajoutés sur NovArcade. De nouveaux jeux HTML5
+            Découvrez les derniers jeux ajoutés sur Jouego. De nouveaux jeux HTML5
             sont régulièrement intégrés — restez à l'affût des dernières nouveautés !
           </p>
 

@@ -40,4 +40,4 @@ Un jeu d'action sur le thème des poupées LOL. Idéal pour un jeune public qui 
 
 Les jeux d'action HTML5 offrent un accès immédiat : pas de téléchargement, pas de compte, pas d'installation. Vous cliquez, vous jouez. Les sessions courtes (5-15 minutes) correspondent parfaitement aux usages modernes : pause au bureau, attente de bus, file d'attente...
 
-Sur NovArcade, tous nos jeux d'action sont optimisés pour le mobile avec support du plein écran. Testez-les tous et trouvez votre favori !
+Sur Jouego, tous nos jeux d'action sont optimisés pour le mobile avec support du plein écran. Testez-les tous et trouvez votre favori !

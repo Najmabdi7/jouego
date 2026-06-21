@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const game = getGameBySlug(params.slug)
   if (!game) return {}
-  const title = `${game.title} — Jouer gratuitement sur NovArcade`
+  const title = `${game.title} — Jouer gratuitement sur Jouego`
   const description = game.description.length > 155
     ? game.description.substring(0, 152) + '...'
     : game.description
@@ -23,14 +23,14 @@ export async function generateMetadata({ params }) {
     title,
     description,
     alternates: {
-      canonical: `https://novarcade.waaplink.com/game/${game.slug}`,
+      canonical: `https://jouego.waaplink.com/game/${game.slug}`,
     },
     openGraph: {
       title,
       description,
       type: 'website',
-      url: `https://novarcade.waaplink.com/game/${game.slug}`,
-      siteName: 'NovArcade',
+      url: `https://jouego.waaplink.com/game/${game.slug}`,
+      siteName: 'Jouego',
       locale: 'fr_FR',
       images: [{ url: game.thumbnail, width: 200, height: 200, alt: game.title }],
     },
@@ -50,7 +50,7 @@ function GameJsonLd({ game }) {
     name: game.title,
     description: game.description,
     genre: game.category,
-    url: `https://novarcade.waaplink.com/game/${game.slug}`,
+    url: `https://jouego.waaplink.com/game/${game.slug}`,
     image: game.thumbnail,
     applicationCategory: 'Game',
     operatingSystem: 'Any (Web Browser)',

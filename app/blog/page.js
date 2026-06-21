@@ -4,9 +4,9 @@ import posts from './posts-manifest.json'
 import styles from './blog.module.css'
 
 export const metadata = {
-  title: 'Blog NovArcade — Guides, classements et astuces jeux',
-  description: 'Le blog NovArcade : guides, classements, astuces et actualités sur les jeux HTML5 gratuits. Découvrez les meilleurs jeux par catégorie.',
-  alternates: { canonical: 'https://novarcade.waaplink.com/blog' },
+  title: 'Blog Jouego — Guides, classements et astuces jeux',
+  description: 'Le blog Jouego : guides, classements, astuces et actualités sur les jeux HTML5 gratuits. Découvrez les meilleurs jeux par catégorie.',
+  alternates: { canonical: 'https://jouego.waaplink.com/blog' },
 }
 
 export default function BlogPage() {
@@ -17,7 +17,7 @@ export default function BlogPage() {
       <Header />
       <div className={styles.page}>
         <div className={styles.inner}>
-          <h1 className={styles.blogH1}>Blog NovArcade</h1>
+          <h1 className={styles.blogH1}>Blog Jouego</h1>
           <p className={styles.subtitle}>
             Guides, classements et astuces pour les meilleurs jeux gratuits en ligne.
           </p>

@@ -2,30 +2,30 @@ import Script from 'next/script'
 import './globals.css'
 
 export const metadata = {
-  metadataBase: new URL('https://novarcade.waaplink.com'),
+  metadataBase: new URL('https://jouego.waaplink.com'),
   title: {
-    default: 'NovArcade — Jeux gratuits en ligne',
-    template: '%s | NovArcade',
+    default: 'Jouego — Jeux gratuits en ligne',
+    template: '%s | Jouego',
   },
-  description: 'Des centaines de jeux HTML5 gratuits à jouer directement dans ton navigateur. Action, puzzle, course, aventure... Lance-toi sur NovArcade !',
+  description: 'Des centaines de jeux HTML5 gratuits à jouer directement dans ton navigateur. Action, puzzle, course, aventure... Lance-toi sur Jouego !',
   keywords: 'jeux gratuits, jeux en ligne, jeux navigateur, HTML5, arcade, puzzle, action, course, aventure, sport, stratégie, multijoueur',
-  authors: [{ name: 'NovArcade' }],
-  creator: 'NovArcade',
-  publisher: 'NovArcade',
+  authors: [{ name: 'Jouego' }],
+  creator: 'Jouego',
+  publisher: 'Jouego',
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'NovArcade — Jeux gratuits en ligne',
+    title: 'Jouego — Jeux gratuits en ligne',
     description: 'Des centaines de jeux HTML5 gratuits à jouer directement dans ton navigateur.',
     type: 'website',
     locale: 'fr_FR',
-    siteName: 'NovArcade',
-    url: 'https://novarcade.waaplink.com',
+    siteName: 'Jouego',
+    url: 'https://jouego.waaplink.com',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'NovArcade — Jeux gratuits en ligne',
+    title: 'Jouego — Jeux gratuits en ligne',
     description: 'Des centaines de jeux HTML5 gratuits à jouer directement dans ton navigateur.',
   },
   robots: {

@@ -1,4 +1,4 @@
-Runner, clicker, casual : les {n} meilleurs jeux arcade gratuits sur NovArcade. Simple, addictif, accessible à tous.
+Runner, clicker, casual : les {n} meilleurs jeux arcade gratuits sur Jouego. Simple, addictif, accessible à tous.
 
 ## 1. Skyblock
 
@@ -64,4 +64,4 @@ Wow! Annual Day is organized at Baby Hazel's preschool. Baby Hazel has decided t
 
 ## L'attrait des jeux arcade
 
-Les jeux arcade HTML5 sont parfaits pour les sessions courtes. Sur NovArcade, tous nos jeux arcade sont gratuits et sans inscription.
+Les jeux arcade HTML5 sont parfaits pour les sessions courtes. Sur Jouego, tous nos jeux arcade sont gratuits et sans inscription.

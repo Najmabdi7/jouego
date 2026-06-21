@@ -5,8 +5,8 @@ import styles from '../seo.module.css'
 
 export const metadata = {
   title: 'Top jeux gratuits en ligne — Les meilleurs jeux HTML5',
-  description: 'Découvrez le top des meilleurs jeux gratuits à jouer en ligne sans téléchargement. Action, puzzle, course, sport et plus sur NovArcade.',
-  alternates: { canonical: 'https://novarcade.waaplink.com/top-jeux' },
+  description: 'Découvrez le top des meilleurs jeux gratuits à jouer en ligne sans téléchargement. Action, puzzle, course, sport et plus sur Jouego.',
+  alternates: { canonical: 'https://jouego.waaplink.com/top-jeux' },
 }
 
 export default function TopJeuxPage() {
@@ -22,7 +22,7 @@ export default function TopJeuxPage() {
         <div className={styles.inner}>
           <h1 className={styles.seoH1}>Top jeux gratuits en ligne</h1>
           <p className={styles.intro}>
-            Bienvenue sur le classement des meilleurs jeux gratuits sur NovArcade.
+            Bienvenue sur le classement des meilleurs jeux gratuits sur Jouego.
             Tous ces jeux se jouent directement dans votre navigateur, sans téléchargement
             ni installation. Voici les 60 jeux les mieux notés par notre communauté.
           </p>

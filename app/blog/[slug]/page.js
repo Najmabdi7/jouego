@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
   return {
     title: post.title,
     description: post.description,
-    alternates: { canonical: `https://novarcade.waaplink.com/blog/${post.slug}` },
+    alternates: { canonical: `https://jouego.waaplink.com/blog/${post.slug}` },
     openGraph: {
       title: post.title,
       description: post.description,
@@ -46,12 +46,12 @@ function ArticleJsonLd({ post }) {
     author: { '@type': 'Organization', name: post.author },
     publisher: {
       '@type': 'Organization',
-      name: 'NovArcade',
-      url: 'https://novarcade.waaplink.com',
+      name: 'Jouego',
+      url: 'https://jouego.waaplink.com',
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://novarcade.waaplink.com/blog/${post.slug}`,
+      '@id': `https://jouego.waaplink.com/blog/${post.slug}`,
     },
     keywords: post.tags.join(', '),
     inLanguage: 'fr',

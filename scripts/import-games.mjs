@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * NovArcade — Script d'import GamePix (incrémental)
+ * Jouego — Script d'import GamePix (incrémental)
  *
  * Usage:
  *   node scripts/import-games.mjs                    # ajoute 500 jeux (order=q)
@@ -23,7 +23,7 @@ const BATCH_SIZE = parseInt(process.env.BATCH_SIZE || '500', 10)
 const MAX_TOTAL = parseInt(process.env.MAX_TOTAL || '5000', 10)
 const FEATURED_MIN_RK = parseFloat(process.env.FEATURED_MIN_RK || '0.85')
 
-// Mapping catégories GamePix (EN) → NovArcade (FR)
+// Mapping catégories GamePix (EN) → Jouego (FR)
 const CATEGORY_MAP = {
   'arcade':     'Arcade',
   'adventure':  'Aventure',
@@ -89,7 +89,7 @@ function transformGame(raw, index) {
   const rating = Math.min(5.0, Math.round((3.5 + rk * 1.5) * 10) / 10)
 
   const cleanT = cleanTitle(raw.title)
-  const description = raw.desc_fr || raw.description || `Joue à ${cleanT} sur NovArcade !`
+  const description = raw.desc_fr || raw.description || `Joue à ${cleanT} sur Jouego !`
 
   let embedUrl = raw.url || ''
   if (embedUrl.includes('play.gamepix.com') && !embedUrl.includes('/embed')) {

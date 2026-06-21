@@ -1,7 +1,7 @@
 import { getAllGames, getAllCategories } from './lib/games'
 import blogPosts from './blog/posts-manifest.json'
 
-const BASE_URL = 'https://novarcade.waaplink.com'
+const BASE_URL = 'https://jouego.waaplink.com'
 
 export default function sitemap() {
   const today = new Date().toISOString().split('T')[0]
