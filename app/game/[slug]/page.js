@@ -4,6 +4,7 @@ import AdSlot from '../../components/AdSlot'
 import { getGameBySlug, getAllGames, formatPlays } from '../../lib/games'
 import GameCard from '../../components/GameCard'
 import FullscreenButton from './FullscreenButton'
+import RotateHint from './RotateHint'
 import styles from './game.module.css'
 
 export async function generateStaticParams() {
@@ -32,6 +33,7 @@ export default function GamePage({ params }) {
   return (
     <>
       <Header />
+      <RotateHint />
       <div className={styles.page}>
         <div className={styles.inner}>
           <nav className={styles.breadcrumb}>
@@ -54,6 +56,9 @@ export default function GamePage({ params }) {
                   allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; monetization; xr-spatial-tracking; gamepad; gyroscope; accelerometer; xr"
                   scrolling="no"
                   frameBorder="0"
+                  loading="lazy"
+                  playsInline
+                  referrerPolicy="no-referrer"
                 />
               </div>
 

@@ -15,6 +15,7 @@
   font-size: 13px;
   color: #4b5563;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .breadcrumb a {
@@ -49,6 +50,7 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 0 0 1px rgba(124,58,237,0.1), 0 20px 60px rgba(0,0,0,0.5);
+  position: relative;
 }
 
 .frame {
@@ -56,6 +58,102 @@
   height: 100%;
   border: none;
   display: block;
+}
+
+/* CSS fullscreen fallback (for iOS Safari, where Fullscreen API is broken) */
+.frameWrap:global(.is-fullscreen) {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  z-index: 9999 !important;
+  background: #000;
+  border: none;
+  border-radius: 0;
+  aspect-ratio: auto !important;
+}
+
+.frameWrap:global(.is-fullscreen) .frame {
+  width: 100%;
+  height: 100%;
+}
+
+/* Floating ESC exit button shown only during CSS fullscreen */
+.exitCssFs {
+  display: none;
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top, 12px));
+  right: max(12px, env(safe-area-inset-right, 12px));
+  z-index: 10000;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.exitCssFsVisible {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* "Tourne ton téléphone" overlay for landscape-only games on portrait phones */
+.rotateHint {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: rgba(0, 0, 0, 0.92);
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.rotateHintVisible {
+  display: flex;
+}
+
+.rotateHintIcon {
+  font-size: 64px;
+  animation: rotatePhone 2.4s ease-in-out infinite;
+}
+
+@keyframes rotatePhone {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(90deg); }
+}
+
+.rotateHintText {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.rotateHintDismiss {
+  margin-top: 8px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .gameInfo {
@@ -128,10 +226,15 @@
   white-space: nowrap;
   transition: background 0.15s;
   flex-shrink: 0;
+  touch-action: manipulation;
 }
 
 .fullscreenBtn:hover {
   background: rgba(124,58,237,0.2);
+}
+
+.fullscreenLabel {
+  /* Hidden on small mobile, icon-only fullscreen button */
 }
 
 .description {
@@ -177,6 +280,7 @@
   gap: 10px;
 }
 
+/* Tablet */
 @media (max-width: 900px) {
   .layout {
     grid-template-columns: 1fr;
@@ -189,4 +293,51 @@
     grid-template-columns: repeat(2, 1fr);
   }
   .page { padding: 16px; }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .page { padding: 12px; padding-top: max(12px, env(safe-area-inset-top, 12px)); }
+
+  /* Game frame takes near-fullscreen: less wasted space on portrait phones */
+  .frameWrap {
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+  }
+
+  .gameInfo { padding: 14px; }
+  .gameTitle { font-size: 17px; }
+  .gameHeader { gap: 10px; }
+
+  /* Hide "Plein écran" text label on mobile: icon-only button to save space */
+  .fullscreenLabel { display: none; }
+  .fullscreenBtn {
+    padding: 10px 12px;
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .relatedList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile portrait: prefer near-fullscreen iframe for better playability */
+@media (max-width: 640px) and (orientation: portrait) {
+  .frameWrap {
+    /* Use viewport height instead of fixed aspect ratio */
+    aspect-ratio: auto;
+    height: 65vh;
+    height: 65dvh;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .frameWrap {
+    height: 60vh;
+    height: 60dvh;
+  }
+  .gameTitle { font-size: 15px; }
 }
