@@ -18,8 +18,8 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.inner}>
         <a href="/" className={styles.logo}>
-          <span className={styles.logoNov}>Nov</span>
-          <span className={styles.logoArcade}>Arcade</span>
+          <span className={styles.logoNov}>Joue</span>
+          <span className={styles.logoArcade}>go</span>
           <span className={styles.logoDot}>.</span>
         </a>
 
