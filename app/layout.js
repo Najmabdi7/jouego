@@ -1,4 +1,5 @@
 import Script from 'next/script'
+import CookieBanner from './components/CookieBanner'
 import './globals.css'
 
 export const metadata = {
@@ -64,7 +65,10 @@ export default function RootLayout({ children }) {
           strategy="afterInteractive"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <CookieBanner />
+      </body>
     </html>
   )
 }
