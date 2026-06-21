@@ -1,0 +1,87 @@
+.page {
+  padding: 24px;
+  min-height: 100vh;
+}
+
+.inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.blogH1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #e8e8f0;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #9ca3af;
+  margin-bottom: 32px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  display: block;
+  padding: 24px;
+  background: #12121e;
+  border: 1px solid #1e1e35;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.card:hover {
+  border-color: rgba(124, 58, 237, 0.4);
+  transform: translateY(-2px);
+}
+
+.cat {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #a78bfa;
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #e8e8f0;
+  margin-bottom: 8px;
+}
+
+.desc {
+  font-size: 14px;
+  color: #9ca3af;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.meta {
+  display: flex;
+  gap: 6px;
+  font-size: 12px;
+  color: #4b5563;
+}
+
+@media (max-width: 640px) {
+  .page { padding: 16px; }
+  .inner h1 { font-size: 24px; }
+  .card { padding: 18px; }
+  .title { font-size: 17px; }
+}

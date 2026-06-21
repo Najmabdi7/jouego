@@ -21,8 +21,11 @@ export default function Home() {
         <div className={styles.footerInner}>
           <span className={styles.footerLogo}>NovArcade.</span>
           <p>Des jeux gratuits pour tout le monde, partout, tout le temps.</p>
-          <p className={styles.footerLinks}>
-            <a href="#">Confidentialité</a> · <a href="#">Contact</a> · <a href="#">Ajouter un jeu</a>
+          <div className={styles.footerLinks}>
+            <a href="/top-jeux">Top jeux</a> · <a href="/nouveautes">Nouveautés</a> · <a href="/blog">Blog</a> · <a href="/categorie/action">Action</a> · <a href="/categorie/puzzle">Puzzle</a> · <a href="/categorie/course">Course</a> · <a href="/categorie/sport">Sport</a> · <a href="/categorie/arcade">Arcade</a> · <a href="/categorie/aventure">Aventure</a> · <a href="/categorie/stratégie">Stratégie</a> · <a href="/categorie/multijoueur">Multijoueur</a>
+          </div>
+          <p className={styles.footerBottom}>
+            <a href="/privacy">Confidentialité</a> · <a href="/contact">Contact</a>
           </p>
         </div>
       </footer>

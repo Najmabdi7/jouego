@@ -15,10 +15,67 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const game = getGameBySlug(params.slug)
   if (!game) return {}
+  const title = `${game.title} — Jouer gratuitement sur NovArcade`
+  const description = game.description.length > 155
+    ? game.description.substring(0, 152) + '...'
+    : game.description
   return {
-    title: `${game.title} — Jouer gratuitement sur NovArcade`,
-    description: game.description,
+    title,
+    description,
+    alternates: {
+      canonical: `https://novarcade.waaplink.com/game/${game.slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      url: `https://novarcade.waaplink.com/game/${game.slug}`,
+      siteName: 'NovArcade',
+      locale: 'fr_FR',
+      images: [{ url: game.thumbnail, width: 200, height: 200, alt: game.title }],
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+      images: [game.thumbnail],
+    },
   }
+}
+
+function GameJsonLd({ game }) {
+  const jsonld = {
+    '@context': 'https://schema.org',
+    '@type': 'VideoGame',
+    name: game.title,
+    description: game.description,
+    genre: game.category,
+    url: `https://novarcade.waaplink.com/game/${game.slug}`,
+    image: game.thumbnail,
+    applicationCategory: 'Game',
+    operatingSystem: 'Any (Web Browser)',
+    browserRequirements: 'Requires JavaScript. Requires HTML5.',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: game.rating,
+      bestRating: '5',
+      ratingCount: Math.max(game.plays, 1),
+    },
+    keywords: game.tags.join(', '),
+    inLanguage: 'fr',
+  }
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonld) }}
+    />
+  )
 }
 
 export default function GamePage({ params }) {
@@ -33,6 +90,7 @@ export default function GamePage({ params }) {
   return (
     <>
       <Header />
+      <GameJsonLd game={game} />
       <RotateHint />
       <div className={styles.page}>
         <div className={styles.inner}>

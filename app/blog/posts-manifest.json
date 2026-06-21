@@ -1,0 +1,35 @@
+[
+  {
+    "slug": "meilleurs-jeux-course-2026",
+    "title": "Top 10 des meilleurs jeux de course gratuits en 2026",
+    "description": "Découvrez notre classement des 10 meilleurs jeux de course gratuits à jouer en ligne en 2026. Voiture, moto, drift et plus encore !",
+    "date": "2026-06-21",
+    "dateModified": "2026-06-21",
+    "author": "NovArcade",
+    "category": "Course",
+    "tags": ["course", "voiture", "moto", "top", "classement"],
+    "readTime": 5
+  },
+  {
+    "slug": "jeux-puzzle-reflexion-gratuits",
+    "title": "Les 8 meilleurs jeux de puzzle et réflexion gratuits en ligne",
+    "description": "Match-3, mahjong, logique, énigmes... Voici notre sélection des meilleurs jeux de puzzle gratuits pour stimuler votre cerveau.",
+    "date": "2026-06-21",
+    "dateModified": "2026-06-21",
+    "author": "NovArcade",
+    "category": "Puzzle",
+    "tags": ["puzzle", "reflexion", "match-3", "mahjong", "logique"],
+    "readTime": 4
+  },
+  {
+    "slug": "jeux-action-gratuits-navigateur",
+    "title": "Jeux d'action gratuits : les incontournables à jouer sur navigateur",
+    "description": "Shooting, combat, stickman... Découvrez les meilleurs jeux d'action gratuits jouables directement dans votre navigateur sans téléchargement.",
+    "date": "2026-06-21",
+    "dateModified": "2026-06-21",
+    "author": "NovArcade",
+    "category": "Action",
+    "tags": ["action", "shooting", "combat", "stickman", "gratuit"],
+    "readTime": 5
+  }
+]
