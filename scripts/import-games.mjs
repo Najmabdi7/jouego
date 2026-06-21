@@ -18,7 +18,7 @@ import { fileURLToPath } from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const OUTPUT = join(__dirname, '../public/data/games.json')
 
-const SID = process.env.GAMEPIX_SID || '78NO7'
+const SID = process.env.GAMEPIX_SID || 'O1U33'
 const BATCH_SIZE = parseInt(process.env.BATCH_SIZE || '500', 10)
 const MAX_TOTAL = parseInt(process.env.MAX_TOTAL || '5000', 10)
 const FEATURED_MIN_RK = parseFloat(process.env.FEATURED_MIN_RK || '0.85')
