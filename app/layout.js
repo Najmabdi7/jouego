@@ -56,7 +56,7 @@ export default function RootLayout({ children }) {
     <html lang="fr">
       <head>
         <meta name="monetag" content="9ccc74e1feb232dd8ce864d1325fbfb2" />
-        <Script async src="https://quge5.com/88/tag.min.js" data-zone="252287" strategy="afterInteractive" />
+        <Script async src="https://nap5k.com/tag.min.js" data-zone="11183606" strategy="afterInteractive" />
         <Script
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`}
