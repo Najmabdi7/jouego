@@ -7,7 +7,13 @@
     "dateModified": "2026-06-21",
     "author": "NovArcade",
     "category": "Course",
-    "tags": ["course", "voiture", "moto", "top", "classement"],
+    "tags": [
+      "course",
+      "voiture",
+      "moto",
+      "top",
+      "classement"
+    ],
     "readTime": 5
   },
   {
@@ -18,7 +24,13 @@
     "dateModified": "2026-06-21",
     "author": "NovArcade",
     "category": "Puzzle",
-    "tags": ["puzzle", "reflexion", "match-3", "mahjong", "logique"],
+    "tags": [
+      "puzzle",
+      "reflexion",
+      "match-3",
+      "mahjong",
+      "logique"
+    ],
     "readTime": 4
   },
   {
@@ -29,7 +41,64 @@
     "dateModified": "2026-06-21",
     "author": "NovArcade",
     "category": "Action",
-    "tags": ["action", "shooting", "combat", "stickman", "gratuit"],
+    "tags": [
+      "action",
+      "shooting",
+      "combat",
+      "stickman",
+      "gratuit"
+    ],
+    "readTime": 5
+  },
+  {
+    "slug": "top-jeux-aventure-2026-06",
+    "title": "Top 10 jeux d'aventure gratuits en ligne en 2026",
+    "description": "Exploration, RPG, mondes ouverts : les {n} meilleurs jeux d'aventure gratuits sur NovArcade. Embarquez pour des aventures épiques sans téléchargement.",
+    "date": "2026-06-21",
+    "dateModified": "2026-06-21",
+    "author": "NovArcade",
+    "category": "Aventure",
+    "tags": [
+      "aventure",
+      "top",
+      "classement",
+      "gratuit",
+      "jeux-en-ligne"
+    ],
+    "readTime": 5
+  },
+  {
+    "slug": "top-jeux-arcade-2026-06",
+    "title": "Top 10 jeux arcade gratuits à jouer en ligne en 2026",
+    "description": "Runner, clicker, casual : les {n} meilleurs jeux arcade gratuits sur NovArcade. Simple, addictif, accessible à tous.",
+    "date": "2026-06-21",
+    "dateModified": "2026-06-21",
+    "author": "NovArcade",
+    "category": "Arcade",
+    "tags": [
+      "arcade",
+      "top",
+      "classement",
+      "gratuit",
+      "jeux-en-ligne"
+    ],
+    "readTime": 5
+  },
+  {
+    "slug": "top-jeux-multijoueur-2026-06",
+    "title": "Top 10 jeux multijoueur gratuits en ligne en 2026",
+    "description": "Affrontez d'autres joueurs du monde entier : les {n} meilleurs jeux multijoueur gratuits sur NovArcade.",
+    "date": "2026-06-21",
+    "dateModified": "2026-06-21",
+    "author": "NovArcade",
+    "category": "Multijoueur",
+    "tags": [
+      "multijoueur",
+      "top",
+      "classement",
+      "gratuit",
+      "jeux-en-ligne"
+    ],
     "readTime": 5
   }
 ]
