@@ -253,7 +253,42 @@ def main():
         capture_output=True, text=True
     )
     if result.returncode == 0:
-        print(f"Pushed {generated} article(s) to GitHub. Vercel will auto-deploy.")
+        print(f"Pushed {generated} article(s) to GitHub.")
+        
+        # Trigger Vercel deployment via API
+        vercel_token = os.environ.get("VERCEL_TOKEN", "")
+        if not vercel_token:
+            env_path = Path.home() / ".hermes" / ".env"
+            if env_path.exists():
+                for line in env_path.read_text().splitlines():
+                    if line.startswith("export VERCEL_TOKEN="):
+                        vercel_token = line.split("=", 1)[1].strip().strip('"')
+                        break
+        
+        if vercel_token:
+            import urllib.request
+            repo_id = "1276067975"  # Najmabdi7/jouego
+            deploy_url = f"https://api.vercel.com/v13/deployments?teamId=team_ayhc3Z6iJ5nZCBkHXYZApExp&forceNew=1"
+            deploy_data = json.dumps({
+                "name": "jouego",
+                "project": "prj_fBOUk8cQUsCQfsQZkwiiXj05slY3",
+                "target": "production",
+                "gitSource": {
+                    "type": "github",
+                    "repoId": int(repo_id),
+                    "ref": "main"
+                }
+            }).encode()
+            req = urllib.request.Request(deploy_url, data=deploy_data, 
+                headers={"Authorization": f"Bearer {vercel_token}", "Content-Type": "application/json"})
+            try:
+                resp = urllib.request.urlopen(req, timeout=10)
+                deploy_info = json.loads(resp.read())
+                print(f"Vercel deploy triggered: {deploy_info.get('url', 'unknown')}")
+            except Exception as e:
+                print(f"Vercel deploy trigger failed: {e}")
+        else:
+            print("WARNING: No VERCEL_TOKEN found. Deploy manually on vercel.com.")
     else:
         print(f"Push failed: {result.stderr}")
         print("Push manually: git push origin main")
