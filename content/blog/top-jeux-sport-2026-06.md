@@ -1,4 +1,4 @@
-Football, basketball, tennis et plus : les {n} meilleurs jeux de sport gratuits à jouer sur navigateur sur NovArcade.
+Football, basketball, tennis et plus : les 10 meilleurs jeux de sport gratuits à jouer sur navigateur sur Jouego.
 
 ## 1. Basketball Stars
 
@@ -65,4 +65,4 @@ Foot Chinko World Cup features a different take on soccer games with a unique bl
 
 ## Jeux de sport : fun gratuit sans téléchargement
 
-Sur NovArcade, tous nos jeux de sport sont gratuits et jouables sur mobile et desktop. Parfait pour les pauses entre deux matchs !
+Sur Jouego, tous nos jeux de sport sont gratuits et jouables sur mobile et desktop. Parfait pour les pauses entre deux matchs !

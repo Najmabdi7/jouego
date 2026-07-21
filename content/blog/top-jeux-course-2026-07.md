@@ -1,4 +1,4 @@
-Vitesse, drift et adrenaline : découvrez les {n} meilleurs jeux de course gratuits à jouer directement dans votre navigateur sur NovArcade.
+Vitesse, drift et adrenaline : découvrez les 10 meilleurs jeux de course gratuits à jouer directement dans votre navigateur sur Jouego.
 
 ## 1. Slope Racing 3D
 
@@ -65,4 +65,4 @@ Stars are twinkling in the sky and night seems beautiful in moonlight. Baby Haze
 
 ## Pourquoi les jeux de course sur navigateur ?
 
-Les jeux de course HTML5 sont accessibles partout, sans installation. Sessions courtes parfaites pour les pauses. Sur NovArcade, tous nos jeux de course sont gratuits et jouables en plein écran.
+Les jeux de course HTML5 sont accessibles partout, sans installation. Sessions courtes parfaites pour les pauses. Sur Jouego, tous nos jeux de course sont gratuits et jouables en plein écran.

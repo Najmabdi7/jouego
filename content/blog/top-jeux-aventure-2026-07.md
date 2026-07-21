@@ -1,4 +1,4 @@
-Exploration, RPG, mondes ouverts : les {n} meilleurs jeux d'aventure gratuits sur NovArcade. Embarquez pour des aventures épiques sans téléchargement.
+Exploration, RPG, mondes ouverts : les 10 meilleurs jeux d'aventure gratuits sur Jouego. Embarquez pour des aventures épiques sans téléchargement.
 
 ## 1. Body Drop 3D
 
@@ -66,4 +66,4 @@ Featuring:
 
 ## L'aventure sur navigateur
 
-Les jeux d'aventure HTML5 offrent des mondes riches sans installation. Sur NovArcade, découvrez des dizaines d'aventures gratuites jouables partout.
+Les jeux d'aventure HTML5 offrent des mondes riches sans installation. Sur Jouego, découvrez des dizaines d'aventures gratuites jouables partout.

@@ -1,4 +1,4 @@
-Les jeux d'action sur navigateur offrent adrenaline et fun sans téléchargement. Voici notre sélection des {n} meilleurs jeux d'action gratuits sur NovArcade.
+Les jeux d'action sur navigateur offrent adrenaline et fun sans téléchargement. Voici notre sélection des 10 meilleurs jeux d'action gratuits sur Jouego.
 
 ## 1. LOL Surprise Insta Party Divas
 
@@ -70,6 +70,6 @@ Tower Crush is an epic indie game where you build 1 tower, up to 6 floors, load 
 
 [Jouer à Tower Crush →](/game/tower-crush)
 
-## Pourquoi jouer aux jeux d'action sur NovArcade ?
+## Pourquoi jouer aux jeux d'action sur Jouego ?
 
 Tous nos jeux d'action sont gratuits, jouables sur mobile et desktop, sans inscription. Le plein écran est supporté pour une expérience immersive. Nouveaux jeux ajoutés régulièrement !

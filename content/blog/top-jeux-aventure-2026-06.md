@@ -1,4 +1,4 @@
-Exploration, RPG, mondes ouverts : les {n} meilleurs jeux d'aventure gratuits sur Jouego. Embarquez pour des aventures épiques sans téléchargement.
+Exploration, RPG, mondes ouverts : les 10 meilleurs jeux d'aventure gratuits sur Jouego. Embarquez pour des aventures épiques sans téléchargement.
 
 ## 1. Body Drop 3D
 

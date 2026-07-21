@@ -1,4 +1,4 @@
-Tower defense, échecs, gestion : les {n} meilleurs jeux de stratégie gratuits sur NovArcade. Planifiez, construisez et conquérez !
+Tower defense, échecs, gestion : les 10 meilleurs jeux de stratégie gratuits sur Jouego. Planifiez, construisez et conquérez !
 
 ## 1. 1941 Frozen Front
 
@@ -63,6 +63,6 @@ Devenez un riche investisseur et restaurez des zoos à travers le pays. Réparez
 
 [Jouer à Idle Zoo →](/game/idle-zoo)
 
-## Stratégie et réflexion sur NovArcade
+## Stratégie et réflexion sur Jouego
 
 Nos jeux de stratégie sont parfaits pour les joueurs qui aiment planifier. Gratuits, jouables sur tous appareils, sans inscription.

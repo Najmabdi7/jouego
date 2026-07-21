@@ -1,4 +1,4 @@
-Runner, clicker, casual : les {n} meilleurs jeux arcade gratuits sur Jouego. Simple, addictif, accessible à tous.
+Runner, clicker, casual : les 10 meilleurs jeux arcade gratuits sur Jouego. Simple, addictif, accessible à tous.
 
 ## 1. Skyblock
 

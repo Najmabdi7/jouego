@@ -1,4 +1,4 @@
-Affrontez d'autres joueurs du monde entier : les {n} meilleurs jeux multijoueur gratuits sur Jouego.
+Affrontez d'autres joueurs du monde entier : les 10 meilleurs jeux multijoueur gratuits sur Jouego.
 
 ## 1. Drunken Duel
 

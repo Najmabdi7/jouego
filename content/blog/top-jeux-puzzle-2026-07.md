@@ -1,4 +1,4 @@
-Stimulez votre cerveau avec notre sélection des {n} meilleurs jeux de puzzle gratuits. Logique, match-3, mahjong et plus encore sur NovArcade.
+Stimulez votre cerveau avec notre sélection des 10 meilleurs jeux de puzzle gratuits. Logique, match-3, mahjong et plus encore sur Jouego.
 
 ## 1. Cut the Rope 2
 
@@ -65,4 +65,4 @@ When you play Kobadoo Flags you are actively using your working memory. Several 
 
 ## Les bienfaits des jeux de puzzle
 
-Les jeux de réflexion améliorent la concentration, la logique spatiale et la mémoire de travail. Sur NovArcade, tous nos puzzles sont gratuits et jouables sur tous vos appareils.
+Les jeux de réflexion améliorent la concentration, la logique spatiale et la mémoire de travail. Sur Jouego, tous nos puzzles sont gratuits et jouables sur tous vos appareils.

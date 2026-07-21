@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-NovArcade blog auto-generator.
+Jouego blog auto-generator.
 Generates SEO blog articles from game data, commits and pushes to GitHub.
 Designed to run as a cron job 3x per week.
 
@@ -27,58 +27,58 @@ TEMPLATES = {
     "Action": {
         "prefix": "top-jeux-action",
         "title": "Top {n} jeux d'action gratuits à jouer en ligne en {year}",
-        "intro": "Les jeux d'action sur navigateur offrent adrenaline et fun sans téléchargement. Voici notre sélection des {n} meilleurs jeux d'action gratuits sur NovArcade.",
+        "intro": "Les jeux d'action sur navigateur offrent adrenaline et fun sans téléchargement. Voici notre sélection des {n} meilleurs jeux d'action gratuits sur Jouego.",
         "section": "## {idx}. {title}\n\n{description}\n\n[Jouer à {title} →](/game/{slug})",
-        "conclusion": "## Pourquoi jouer aux jeux d'action sur NovArcade ?\n\nTous nos jeux d'action sont gratuits, jouables sur mobile et desktop, sans inscription. Le plein écran est supporté pour une expérience immersive. Nouveaux jeux ajoutés régulièrement !",
+        "conclusion": "## Pourquoi jouer aux jeux d'action sur Jouego ?\n\nTous nos jeux d'action sont gratuits, jouables sur mobile et desktop, sans inscription. Le plein écran est supporté pour une expérience immersive. Nouveaux jeux ajoutés régulièrement !",
     },
     "Puzzle": {
         "prefix": "top-jeux-puzzle",
         "title": "Top {n} jeux de puzzle et réflexion gratuits en {year}",
-        "intro": "Stimulez votre cerveau avec notre sélection des {n} meilleurs jeux de puzzle gratuits. Logique, match-3, mahjong et plus encore sur NovArcade.",
+        "intro": "Stimulez votre cerveau avec notre sélection des {n} meilleurs jeux de puzzle gratuits. Logique, match-3, mahjong et plus encore sur Jouego.",
         "section": "## {idx}. {title}\n\n{description}\n\n[Jouer à {title} →](/game/{slug})",
-        "conclusion": "## Les bienfaits des jeux de puzzle\n\nLes jeux de réflexion améliorent la concentration, la logique spatiale et la mémoire de travail. Sur NovArcade, tous nos puzzles sont gratuits et jouables sur tous vos appareils.",
+        "conclusion": "## Les bienfaits des jeux de puzzle\n\nLes jeux de réflexion améliorent la concentration, la logique spatiale et la mémoire de travail. Sur Jouego, tous nos puzzles sont gratuits et jouables sur tous vos appareils.",
     },
     "Course": {
         "prefix": "top-jeux-course",
         "title": "Top {n} jeux de course gratuits en ligne en {year}",
-        "intro": "Vitesse, drift et adrenaline : découvrez les {n} meilleurs jeux de course gratuits à jouer directement dans votre navigateur sur NovArcade.",
+        "intro": "Vitesse, drift et adrenaline : découvrez les {n} meilleurs jeux de course gratuits à jouer directement dans votre navigateur sur Jouego.",
         "section": "## {idx}. {title}\n\n{description}\n\n[Jouer à {title} →](/game/{slug})",
-        "conclusion": "## Pourquoi les jeux de course sur navigateur ?\n\nLes jeux de course HTML5 sont accessibles partout, sans installation. Sessions courtes parfaites pour les pauses. Sur NovArcade, tous nos jeux de course sont gratuits et jouables en plein écran.",
+        "conclusion": "## Pourquoi les jeux de course sur navigateur ?\n\nLes jeux de course HTML5 sont accessibles partout, sans installation. Sessions courtes parfaites pour les pauses. Sur Jouego, tous nos jeux de course sont gratuits et jouables en plein écran.",
     },
     "Sport": {
         "prefix": "top-jeux-sport",
         "title": "Top {n} jeux de sport gratuits en ligne en {year}",
-        "intro": "Football, basketball, tennis et plus : les {n} meilleurs jeux de sport gratuits à jouer sur navigateur sur NovArcade.",
+        "intro": "Football, basketball, tennis et plus : les {n} meilleurs jeux de sport gratuits à jouer sur navigateur sur Jouego.",
         "section": "## {idx}. {title}\n\n{description}\n\n[Jouer à {title} →](/game/{slug})",
-        "conclusion": "## Jeux de sport : fun gratuit sans téléchargement\n\nSur NovArcade, tous nos jeux de sport sont gratuits et jouables sur mobile et desktop. Parfait pour les pauses entre deux matchs !",
+        "conclusion": "## Jeux de sport : fun gratuit sans téléchargement\n\nSur Jouego, tous nos jeux de sport sont gratuits et jouables sur mobile et desktop. Parfait pour les pauses entre deux matchs !",
     },
     "Arcade": {
         "prefix": "top-jeux-arcade",
         "title": "Top {n} jeux arcade gratuits à jouer en ligne en {year}",
-        "intro": "Runner, clicker, casual : les {n} meilleurs jeux arcade gratuits sur NovArcade. Simple, addictif, accessible à tous.",
+        "intro": "Runner, clicker, casual : les {n} meilleurs jeux arcade gratuits sur Jouego. Simple, addictif, accessible à tous.",
         "section": "## {idx}. {title}\n\n{description}\n\n[Jouer à {title} →](/game/{slug})",
-        "conclusion": "## L'attrait des jeux arcade\n\nLes jeux arcade HTML5 sont parfaits pour les sessions courtes. Sur NovArcade, tous nos jeux arcade sont gratuits et sans inscription.",
+        "conclusion": "## L'attrait des jeux arcade\n\nLes jeux arcade HTML5 sont parfaits pour les sessions courtes. Sur Jouego, tous nos jeux arcade sont gratuits et sans inscription.",
     },
     "Aventure": {
         "prefix": "top-jeux-aventure",
         "title": "Top {n} jeux d'aventure gratuits en ligne en {year}",
-        "intro": "Exploration, RPG, mondes ouverts : les {n} meilleurs jeux d'aventure gratuits sur NovArcade. Embarquez pour des aventures épiques sans téléchargement.",
+        "intro": "Exploration, RPG, mondes ouverts : les {n} meilleurs jeux d'aventure gratuits sur Jouego. Embarquez pour des aventures épiques sans téléchargement.",
         "section": "## {idx}. {title}\n\n{description}\n\n[Jouer à {title} →](/game/{slug})",
-        "conclusion": "## L'aventure sur navigateur\n\nLes jeux d'aventure HTML5 offrent des mondes riches sans installation. Sur NovArcade, découvrez des dizaines d'aventures gratuites jouables partout.",
+        "conclusion": "## L'aventure sur navigateur\n\nLes jeux d'aventure HTML5 offrent des mondes riches sans installation. Sur Jouego, découvrez des dizaines d'aventures gratuites jouables partout.",
     },
     "Stratégie": {
         "prefix": "top-jeux-strategie",
         "title": "Top {n} jeux de stratégie gratuits en ligne en {year}",
-        "intro": "Tower defense, échecs, gestion : les {n} meilleurs jeux de stratégie gratuits sur NovArcade. Planifiez, construisez et conquérez !",
+        "intro": "Tower defense, échecs, gestion : les {n} meilleurs jeux de stratégie gratuits sur Jouego. Planifiez, construisez et conquérez !",
         "section": "## {idx}. {title}\n\n{description}\n\n[Jouer à {title} →](/game/{slug})",
-        "conclusion": "## Stratégie et réflexion sur NovArcade\n\nNos jeux de stratégie sont parfaits pour les joueurs qui aiment planifier. Gratuits, jouables sur tous appareils, sans inscription.",
+        "conclusion": "## Stratégie et réflexion sur Jouego\n\nNos jeux de stratégie sont parfaits pour les joueurs qui aiment planifier. Gratuits, jouables sur tous appareils, sans inscription.",
     },
     "Multijoueur": {
         "prefix": "top-jeux-multijoueur",
         "title": "Top {n} jeux multijoueur gratuits en ligne en {year}",
-        "intro": "Affrontez d'autres joueurs du monde entier : les {n} meilleurs jeux multijoueur gratuits sur NovArcade.",
+        "intro": "Affrontez d'autres joueurs du monde entier : les {n} meilleurs jeux multijoueur gratuits sur Jouego.",
         "section": "## {idx}. {title}\n\n{description}\n\n[Jouer à {title} →](/game/{slug})",
-        "conclusion": "## La compétition sur NovArcade\n\nNos jeux multijoueur sont gratuits et accessibles partout. Affrontez des joueurs du monde entier sans téléchargement !",
+        "conclusion": "## La compétition sur Jouego\n\nNos jeux multijoueur sont gratuits et accessibles partout. Affrontez des joueurs du monde entier sans téléchargement !",
     },
 }
 
@@ -160,16 +160,19 @@ def generate_article(games, posts, used_slugs):
                 slug=game["slug"],
             ))
         
-        markdown = f"{template['intro']}\n\n" + "\n\n".join(sections) + f"\n\n{template['conclusion']}\n"
+        # Format intro with n
+        intro_formatted = template["intro"].format(n=n, year=year)
+        markdown = f"{intro_formatted}\n\n" + "\n\n".join(sections) + f"\n\n{template['conclusion']}\n"
         
         # Build manifest entry
+        intro_for_desc = intro_formatted[:155] + ("..." if len(intro_formatted) > 155 else "")
         post = {
             "slug": slug,
             "title": template["title"].format(n=n, year=year),
-            "description": template["intro"][:155] + ("..." if len(template["intro"]) > 155 else ""),
+            "description": intro_for_desc,
             "date": datetime.now().strftime("%Y-%m-%d"),
             "dateModified": datetime.now().strftime("%Y-%m-%d"),
-            "author": "NovArcade",
+            "author": "Jouego",
             "category": cat,
             "tags": [cat.lower(), "top", "classement", "gratuit", "jeux-en-ligne"],
             "readTime": max(3, n // 2),
@@ -244,7 +247,7 @@ def main():
         print("WARNING: No GITHUB_TOKEN found. Push manually.")
         return
     
-    push_url = f"https://npqrcode:{token}@github.com/Najmabdi7/novarcade.git"
+    push_url = f"https://npqrcode:{token}@github.com/Najmabdi7/jouego.git"
     result = subprocess.run(
         ["git", "push", push_url, "main"],
         capture_output=True, text=True
