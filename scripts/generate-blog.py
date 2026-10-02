@@ -9,6 +9,7 @@ Usage:
   python3 generate-blog.py --count 3 # generate 3 articles
 """
 
+import hashlib
 import json
 import os
 import re
@@ -110,77 +111,119 @@ def slugify(s):
 def get_existing_slugs(posts):
     return {p["slug"] for p in posts}
 
-def generate_article(games, posts, used_slugs):
-    """Generate one article. Rotate through categories."""
+def body_fingerprint(markdown):
+    """Empreinte du corps d'un article — garde anti-doublon.
+
+    Le générateur produisait la même liste de jeux pour une catégorie tant que le
+    catalogue ne bougeait pas : seuls le slug, le titre et la date changeaient, donc
+    les mêmes articles étaient republiés sous plusieurs URL (contenu dupliqué pour
+    Google). On compare le corps réel, pas le slug.
+    """
+    return hashlib.sha256(
+        re.sub(r"\s+", " ", markdown).strip().encode("utf-8")
+    ).hexdigest()
+
+
+def published_fingerprints():
+    """Empreintes des articles déjà publiés (fichiers de content/blog)."""
+    out = set()
+    if CONTENT_DIR.exists():
+        for md in CONTENT_DIR.glob("*.md"):
+            try:
+                out.add(body_fingerprint(md.read_text(encoding="utf-8")))
+            except OSError:
+                pass
+    return out
+
+
+# Tailles de classement essayées dans cet ordre : une « Top 5 » est un article
+# distinct (et légitime) d'une « Top 10 », ce qui permet de publier du contenu
+# neuf même quand la liste complète est déjà sortie.
+LIST_SIZES = (10, 7, 5)
+
+
+def generate_article(games, posts, used_slugs, seen_fingerprints):
+    """Generate one article. Rotate through categories, skip already-published bodies."""
     existing_slugs = get_existing_slugs(posts)
-    
+
     # Count articles per category to rotate
     cat_counts = {}
     for p in posts:
         cat_counts[p["category"]] = cat_counts.get(p["category"], 0) + 1
-    
+
     # Pick the category with fewest articles
     categories = sorted(
         set(TEMPLATES.keys()),
         key=lambda c: cat_counts.get(c, 0)
     )
-    
-    for cat in categories:
-        template = TEMPLATES[cat]
-        year = datetime.now().year
-        
-        # Pick top 10 games in this category (by rating)
-        cat_games = [g for g in games if g["category"] == cat]
-        if len(cat_games) < 5:
-            continue  # Skip if not enough games
-        
-        top_games = sorted(cat_games, key=lambda g: (-g.get("rating", 0), -g.get("plays", 0)))[:10]
-        n = len(top_games)
-        
-        # Generate slug
-        slug = f"{template['prefix']}-{year}-{datetime.now().strftime('%m')}"
-        # Ensure uniqueness
-        base_slug = slug
-        counter = 1
-        while slug in existing_slugs or slug in used_slugs:
-            slug = f"{base_slug}-{counter}"
-            counter += 1
-        
-        # Build markdown content
-        sections = []
-        for i, game in enumerate(top_games, 1):
-            desc = game.get("description", "")
-            # Truncate description to ~200 chars
-            if len(desc) > 200:
-                desc = desc[:197] + "..."
-            sections.append(template["section"].format(
-                idx=i,
-                title=game["title"],
-                description=desc,
-                slug=game["slug"],
-            ))
-        
-        # Format intro with n
-        intro_formatted = template["intro"].format(n=n, year=year)
-        markdown = f"{intro_formatted}\n\n" + "\n\n".join(sections) + f"\n\n{template['conclusion']}\n"
-        
-        # Build manifest entry
-        intro_for_desc = intro_formatted[:155] + ("..." if len(intro_formatted) > 155 else "")
-        post = {
-            "slug": slug,
-            "title": template["title"].format(n=n, year=year),
-            "description": intro_for_desc,
-            "date": datetime.now().strftime("%Y-%m-%d"),
-            "dateModified": datetime.now().strftime("%Y-%m-%d"),
-            "author": "Jouego",
-            "category": cat,
-            "tags": [cat.lower(), "top", "classement", "gratuit", "jeux-en-ligne"],
-            "readTime": max(3, n // 2),
-        }
-        
-        return post, markdown, slug
-    
-    return None, None, None
+
+    year = datetime.now().year
+
+    for size in LIST_SIZES:
+        for cat in categories:
+            template = TEMPLATES[cat]
+
+            # Pick the top games in this category (by rating)
+            cat_games = [g for g in games if g["category"] == cat]
+            if len(cat_games) < 5:
+                continue  # Skip if not enough games
+
+            top_games = sorted(cat_games, key=lambda g: (-g.get("rating", 0), -g.get("plays", 0)))[:size]
+            n = len(top_games)
+            if n < 5:
+                continue
+
+            # Build markdown content
+            sections = []
+            for i, game in enumerate(top_games, 1):
+                desc = game.get("description", "")
+                # Truncate description to ~200 chars
+                if len(desc) > 200:
+                    desc = desc[:197] + "..."
+                sections.append(template["section"].format(
+                    idx=i,
+                    title=game["title"],
+                    description=desc,
+                    slug=game["slug"],
+                ))
+
+            # Format intro with n
+            intro_formatted = template["intro"].format(n=n, year=year)
+            markdown = f"{intro_formatted}\n\n" + "\n\n".join(sections) + f"\n\n{template['conclusion']}\n"
+
+            # ── Garde anti-doublon : ce corps existe déjà → on ne republie pas ──
+            fingerprint = body_fingerprint(markdown)
+            if fingerprint in seen_fingerprints:
+                continue
+
+            # Generate slug
+            slug = f"{template['prefix']}-{year}-{datetime.now().strftime('%m')}"
+            if n != 10:
+                slug = f"{slug}-top{n}"
+            # Ensure uniqueness
+            base_slug = slug
+            counter = 1
+            while slug in existing_slugs or slug in used_slugs:
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+
+            # Build manifest entry
+            intro_for_desc = intro_formatted[:155] + ("..." if len(intro_formatted) > 155 else "")
+            post = {
+                "slug": slug,
+                "title": template["title"].format(n=n, year=year),
+                "description": intro_for_desc,
+                "date": datetime.now().strftime("%Y-%m-%d"),
+                "dateModified": datetime.now().strftime("%Y-%m-%d"),
+                "author": "Jouego",
+                "category": cat,
+                "tags": [cat.lower(), "top", "classement", "gratuit", "jeux-en-ligne"],
+                "readTime": max(3, n // 2),
+            }
+
+            return post, markdown, slug, fingerprint
+
+    return None, None, None, None
 
 def main():
     count = int(sys.argv[sys.argv.index("--count") + 1]) if "--count" in sys.argv else 1
@@ -188,12 +231,14 @@ def main():
     games = load_games()
     posts = load_manifest()
     used_slugs = set()
-    
+    # Garde anti-doublon : empreintes des articles déjà publiés sur le site.
+    seen_fingerprints = published_fingerprints()
+
     generated = 0
     for _ in range(count):
-        post, markdown, slug = generate_article(games, posts, used_slugs)
+        post, markdown, slug, fingerprint = generate_article(games, posts, used_slugs, seen_fingerprints)
         if not post:
-            print("No more articles to generate (all categories exhausted)")
+            print("Aucun article neuf : tous les contenus de ce catalogue sont déjà publiés (garde anti-doublon).")
             break
         
         # Write markdown file
@@ -204,6 +249,7 @@ def main():
         # Add to manifest
         posts.append(post)
         used_slugs.add(slug)
+        seen_fingerprints.add(fingerprint)
         generated += 1
         print(f"Generated: {post['title']} ({slug})")
     
